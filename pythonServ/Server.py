@@ -1,4 +1,4 @@
-import sys, traceback, time, Ice
+import sys, traceback, time, Ice, pymysql
 
 Ice.loadSlice('../ice/py2serv.ice')
 Ice.updateModules()
@@ -6,7 +6,7 @@ import py2serv
 
 class SenderI(py2serv.Sender):
     def send(self, round,msg, current=None):
-        print("[Round #{}] Received: date={} ,mission={} ,action={} ,idObjet={}"
+        print("[Round #{}] Received: date={}, mission={}, action={}, idObjet={}"
               .format(round,msg.date,msg.mission,msg.action,msg.idObjet))
 
 class Server(Ice.Application):
@@ -21,6 +21,17 @@ class Server(Ice.Application):
         self.communicator().waitForShutdown()
         return 0
 
+database = pymysql.connect(host='localhost',
+                           #unix_socket='/tmp/mysql.sock',
+                           user='root',
+                           passwd='root',
+                           db='test1')
+cursor = database.cursor()
+
 sys.stdout.flush()
 app = Server()
+
+cursor.close()
+database.close()
+
 sys.exit(app.main(sys.argv, "config.server"))

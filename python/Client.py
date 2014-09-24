@@ -1,7 +1,13 @@
-import sys, traceback, Ice
+import sys, traceback, Ice, time
 
 Ice.loadSlice('../ice/py2serv.ice')
 import py2serv
+
+idObjet = 0
+
+def messageBuilder(mission):
+    date = time.strftime("%Y-%m-%d %H:%M:%S")
+    return py2serv.Message(date,mission,"ADD",idObjet,"Place",1)
 
 class Client(Ice.Application):
     def run(self, args):
@@ -16,7 +22,6 @@ class Client(Ice.Application):
         c = None
         while c != 'x':
             try:
-                test = py2serv.Message("dateX",11,"ADD",42)
                 sys.stdout.write("(Enter 'x' to stop)\n")
                 sys.stdout.write("Number of messages to send: ")
                 #sys.stdout.flush()
@@ -25,8 +30,9 @@ class Client(Ice.Application):
                     pass # Nothing to do
                 else:
                     for i in range(0, int(c)):
+                        testMsg = messageBuilder(0)
+                        sender.send(round,testMsg)
                         print("msg #{} sent".format(i))
-                        sender.send(round,test)
                     round+=1
             except KeyboardInterrupt:
                 break
