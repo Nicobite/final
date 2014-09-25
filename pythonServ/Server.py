@@ -12,7 +12,9 @@ class SenderI(py2serv.Sender):
         print(query)
         cursor.execute(query)
         database.commit()
-        cursor.execute("select * from messages")
+        #cursor.execute("select * from messages")
+    def resetTable(self, current=None):
+        cursor.execute("TRUNCATE TABLE messages")
 class Server(Ice.Application):
     def run(self, args):
         if len(args) > 1:

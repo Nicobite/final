@@ -14,6 +14,7 @@ module py2serv
 	
 	interface Sender{
 		void send(int round,Message msg);
+		void resetTable();
 	};
 
 };

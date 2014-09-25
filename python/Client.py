@@ -25,12 +25,14 @@ class Client(Ice.Application):
         while c != 'x':
             try:
                 idObjet += 1
-                sys.stdout.write("(Enter 'x' to stop)\n")
+                sys.stdout.write("(Enter 'x' to stop, 'r' to reset the table)\n")
                 sys.stdout.write("Number of messages to send: ")
                 #sys.stdout.flush()
                 c = sys.stdin.readline().strip()
                 if c == 'x':
                     pass # Nothing to do
+                elif c == 'r':
+                    sender.resetTable();
                 else:
                     for i in range(0, int(c)):
                         testMsg = messageBuilder(mission,idObjet)
