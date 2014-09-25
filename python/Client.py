@@ -3,11 +3,11 @@ import sys, traceback, Ice, time
 Ice.loadSlice('../ice/py2serv.ice')
 import py2serv
 
-idObjet = 0
 
-def messageBuilder(mission):
+
+def messageBuilder(mission,idObjet):
     date = time.strftime("%Y-%m-%d %H:%M:%S")
-    return py2serv.Message(date,mission,"ADD",idObjet,"Place",1)
+    return py2serv.Message(date,mission,'ADD',idObjet,'P',1)
 
 class Client(Ice.Application):
     def run(self, args):
@@ -15,6 +15,8 @@ class Client(Ice.Application):
             print(self.appName() + ": too many arguments")
             return 1
 
+        mission = 100
+        idObjet = 0
         sender = py2serv.SenderPrx.checkedCast(\
             self.communicator().propertyToProxy('Sender.Proxy').ice_twoway().ice_timeout(-1).ice_secure(False))
 
@@ -22,6 +24,7 @@ class Client(Ice.Application):
         c = None
         while c != 'x':
             try:
+                idObjet += 1
                 sys.stdout.write("(Enter 'x' to stop)\n")
                 sys.stdout.write("Number of messages to send: ")
                 #sys.stdout.flush()
@@ -30,9 +33,10 @@ class Client(Ice.Application):
                     pass # Nothing to do
                 else:
                     for i in range(0, int(c)):
-                        testMsg = messageBuilder(0)
+                        testMsg = messageBuilder(mission,idObjet)
                         sender.send(round,testMsg)
                         print("msg #{} sent".format(i))
+                        idObjet += 1
                     round+=1
             except KeyboardInterrupt:
                 break
