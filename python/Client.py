@@ -24,7 +24,6 @@ class Client(Ice.Application):
         c = None
         while c != 'x':
             try:
-                idObjet += 1
                 sys.stdout.write("(Enter 'x' to stop, 'r' to reset the table)\n")
                 sys.stdout.write("Number of messages to send: ")
                 #sys.stdout.flush()

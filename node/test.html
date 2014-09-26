@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="ressources/mainpage.css"/>
+		<script src="ressources/three.js"></script>
+		<script src="ressources/TrackballControls.js"></script>
+		<script src="ressources/functions.js"></script>
+		<script src="ressources/utility.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
+		<h4><span id="time" /></h4>
+		<div class='options'>
+			<input type="checkbox" id="lvl1_grey" value="checkbox">
+			<label>Transparent level 1</label>
+			<input type="checkbox" id="lvl2_grey" value="checkbox">
+			<label>Transparent level 2</label>
+		</div>
+		</br>
+		<script>
+			var socket = io.connect('http://127.0.0.1:8080');
+			//alert('connected');
+			socket.on('connectionReply', function(dbLoading) {
+				//alert('received ' + dbLoading+  ' from server');
+				for (i = 0; i < dbLoading.length; i++) {
+					lvl2.add( draw_circle(PLACE_RADIUS,PLACE_RESOLUTION,-500+300*i,200,+STD_PLANE_Z));
+				}
+			})
+			//alert('drawn first places');//*/
+		</script>
+		<script class="bordered" src="ressources/main.js"></script>
+	</body>
+</html>

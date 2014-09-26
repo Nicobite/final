@@ -3,15 +3,27 @@ import sys, traceback, time, Ice, pymysql
 Ice.loadSlice('../ice/py2serv.ice')
 Ice.updateModules()
 import py2serv
+from urllib.request import urlopen
+import urllib
 
+
+###
+
+###
+        
 class SenderI(py2serv.Sender):
     def send(self, round,msg, current=None):
         print("[Round #{}] Received: date={}, mission={}, action={}, idObjet={}"
               .format(round,msg.date,msg.mission,msg.action,msg.idObjet))
         query = "INSERT INTO messages VALUE("+str(msg.idObjet)+",'"+msg.date+"',"+str(msg.mission)+",'"+msg.action+"','"+msg.type+"',"+str(msg.niveau)+")" #"+msg.type+"
-        print(query)
+        #print(query)
         cursor.execute(query)
         database.commit()
+
+        ###
+        
+        ###
+        
         #cursor.execute("select * from messages")
     def resetTable(self, current=None):
         cursor.execute("TRUNCATE TABLE messages")
